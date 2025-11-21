@@ -1,0 +1,14 @@
+# Pasta do Visual Studio
+.vs/
+
+# Build
+bin/
+obj/
+
+# Configurações de usuário
+*.user
+*.suo
+
+# Arquivos temporários
+*.cache
+*.tmp
