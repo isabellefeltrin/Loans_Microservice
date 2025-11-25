@@ -1,4 +1,4 @@
-﻿namespace LoansMicroservice.DT
+﻿namespace LoansMicroservice.DTO
 {
     public class bookDTOResponse
     {
@@ -8,4 +8,3 @@
         public int Quantity { get; set; }
     }
 }
-// teste comit

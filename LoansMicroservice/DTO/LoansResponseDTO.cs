@@ -11,6 +11,6 @@ namespace LoansMicroservice.DTO
         public DateTime DataEmprestimo { get; set; }
         public DateTime? DataDevolucao { get; set; }
 
-        public LoanStatus Status { get; set; }
+        public string Status { get; set; } = string.Empty;
     }
 }

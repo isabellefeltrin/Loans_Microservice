@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection.Emit;
 using static LoansMicroservice.Model.LoansModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoansMicroservice.Banco
 {
@@ -16,3 +17,4 @@ namespace LoansMicroservice.Banco
             public DbSet<Loan> Loans { get; set; }
         }
     }
+}

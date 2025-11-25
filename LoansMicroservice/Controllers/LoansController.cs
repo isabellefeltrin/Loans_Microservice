@@ -1,11 +1,6 @@
-﻿using LoansMicroservice.Banco;
+﻿
 using LoansMicroservice.DTO;
-using LoansMicroservice.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
 using static LoansMicroservice.Banco.LoansContext;
 using static LoansMicroservice.Model.LoansModel;
 
@@ -68,7 +63,7 @@ namespace LoansMicroservice.Controllers
 
 
         [HttpPost]
-        public ActionResult<LoansResponseDTO> Create([FromBody] CreateLoanRequest request)
+        public ActionResult<LoansResponseDTO> Create([FromBody] LoansDTO request)
         {
             var client = _httpClientFactory.CreateClient();
 
@@ -90,7 +85,6 @@ namespace LoansMicroservice.Controllers
             if (book.Quantity <= 0)
                 return BadRequest("Não há cópias disponíveis desse livro.");
 
-            // 2) Consulta membro (members-service)
             var memberResponse = client.GetAsync($"{MembersBaseUrl}/api/members/{request.MemberId}")
                                        .GetAwaiter()
                                        .GetResult();
@@ -146,7 +140,7 @@ namespace LoansMicroservice.Controllers
             return CreatedAtAction(nameof(GetById), new { id = loan.Id }, response);
         }
 
-        // PATCH api/loans/{id}/return
+
         [HttpPatch("{id:int}/return")]
         public IActionResult Return(int id)
         {
@@ -163,7 +157,7 @@ namespace LoansMicroservice.Controllers
 
             var client = _httpClientFactory.CreateClient();
 
-            // Atualizar livros e membros na devolução
+
             var patchBook = client.PatchAsync(
                     $"{BooksBaseUrl}/api/books/{loan.BookId}/increment-copies", content: null)
                 .GetAwaiter()
