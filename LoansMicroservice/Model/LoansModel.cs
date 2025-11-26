@@ -8,17 +8,13 @@
             Devolvido = 1
         }
 
-        public class Loan
-        {
-            public int Id { get; set; }
+        public int Id { get; set; }
+        public int BookId { get; set; }
+        public int MemberId { get; set; }
 
-            public int BookId { get; set; }
-            public int MemberId { get; set; }
+        public DateTime DataEmprestimo { get; set; }
+        public DateTime? DataDevolucao { get; set; }
 
-            public DateTime DataEmprestimo { get; set; }
-            public DateTime? DataDevolucao { get; set; }
-
-            public string Status { get; set; } = "Active";
-        }
+        public LoanStatus Status { get; set; } = LoanStatus.Ativo;
     }
 }

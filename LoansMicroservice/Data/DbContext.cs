@@ -1,11 +1,11 @@
 ﻿using LoansMicroservice.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoansMicroservice.Banco
+namespace LoansMicroservice.Data
 {
-    public class LoansContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public LoansContext(DbContextOptions<LoansContext> options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }
@@ -13,3 +13,4 @@ namespace LoansMicroservice.Banco
         public DbSet<LoansModel> Loans { get; set; }
     }
 }
+
