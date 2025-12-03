@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LoansMicroservice.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(LoansDbContext))]
     [Migration("20251126155846_CreateTableLoans")]
     partial class CreateTableLoans
     {

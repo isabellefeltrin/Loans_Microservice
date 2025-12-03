@@ -1,8 +1,6 @@
-﻿using LoansMicroservice.DTO;
-using LoansMicroservice.Model;
-using LoansMicroservice.Service;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using LoansMicroservice.Models;
+using LoansMicroservice.Services;
 
 namespace LoansMicroservice.Controllers
 {
@@ -10,39 +8,46 @@ namespace LoansMicroservice.Controllers
     [Route("api/[controller]")]
     public class LoansController : ControllerBase
     {
-        private readonly ILoansService _service;
+        private readonly LoansService _service;
+        public LoansController(LoansService service) => _service = service;
 
-        public LoansController(ILoansService service)
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateLoanDto dto)
         {
-            _service = service;
+            try
+            {
+                var loan = await _service.CreateLoan(dto);
+                return CreatedAtAction(nameof(GetById), new { id = loan.Id }, loan);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<LoansResponseDTO>> GetAll()
-        {
-            return Ok(_service.GetAll());
-        }
+        public async Task<IActionResult> GetAll() => Ok(await _service.GetAllLoans());
 
         [HttpGet("{id}")]
-        public ActionResult<LoansResponseDTO> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var loan = _service.GetById(id);
+            var loan = await _service.GetLoanById(id);
             if (loan == null) return NotFound();
             return Ok(loan);
         }
 
-        [HttpPost]
-        public IActionResult Create(LoansModel loan)
+        [HttpPatch("{id}/return")]
+        public async Task<IActionResult> Return(int id)
         {
-            _service.Create(loan);
-            return CreatedAtAction(nameof(GetById), new { id = loan.Id }, loan);
-        }
-
-        [HttpPut]
-        public IActionResult Update(LoansModel loan)
-        {
-            _service.Update(loan);
-            return NoContent();
+            try
+            {
+                var loan = await _service.ReturnLoan(id);
+                return Ok(new { message = "Devolução registrada com sucesso.", loan });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

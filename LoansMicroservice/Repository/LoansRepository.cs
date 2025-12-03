@@ -1,39 +1,34 @@
-﻿using LoansMicroservice.Data;
-using LoansMicroservice.Model;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using LoansMicroservice.Data;
+using LoansMicroservice.Models;
 
-namespace LoansMicroservice.Repository
+namespace LoansMicroservice.Repositories
 {
     public class LoansRepository
     {
-        private readonly AppDbContext _context;
+        private readonly LoansDbContext _context;
+        public LoansRepository(LoansDbContext context) => _context = context;
 
-        public LoansRepository(AppDbContext context)
+        public async Task<Loan> AddAsync(Loan loan)
         {
-            _context = context;
+            await _context.Loans.AddAsync(loan);
+            await _context.SaveChangesAsync();
+            return loan;
         }
 
-        public List<LoansModel> GetAll()
-        {
-            return _context.Loans.ToList();
-        }
-
-        public LoansModel GetById(int id)
-        {
-            return _context.Loans.FirstOrDefault(l => l.Id == id);
-        }
-
-        public void Create(LoansModel loan)
-        {
-            _context.Loans.Add(loan);
-            _context.SaveChanges();
-        }
-
-        public void Update(LoansModel loan)
+        public async Task<Loan?> GetByIdAsync(int id) => await _context.Loans.FindAsync(id);
+        public async Task<IEnumerable<Loan>> GetAllAsync() => await _context.Loans.ToListAsync();
+        public async Task UpdateAsync(Loan loan)
         {
             _context.Loans.Update(loan);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Member?> GetMemberByIdAsync(int id) => await _context.Members.FindAsync(id);
+        public async Task UpdateMemberAsync(Member member)
+        {
+            _context.Members.Update(member);
+            await _context.SaveChangesAsync();
         }
     }
 }

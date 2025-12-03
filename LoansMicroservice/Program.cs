@@ -1,27 +1,29 @@
-using LoansMicroservice.Data;
-using LoansMicroservice.Service;
 using Microsoft.EntityFrameworkCore;
-using static LoansMicroservice.Data.AppDbContext;
+using LoansMicroservice.Data;
+using LoansMicroservice.Repositories;
+using LoansMicroservice.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<LoansDbContext>(options =>
+    options.UseSqlite("Data Source=loans.db")
+);
+
+builder.Services.AddHttpClient<ExternalServicesHelper>();
+builder.Services.AddScoped<LoansRepository>();
+builder.Services.AddScoped<LoansService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=loans.db"));
-
-builder.Services.AddHttpClient();
-
-
-builder.Services.AddScoped<ILoansService, LoansService>();
-
-builder.Services.AddControllers();
-
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<LoansDbContext>();
+    dbContext.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {
@@ -29,8 +31,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+app.Urls.Add("http://localhost:5090");
 app.Run();
-
-
