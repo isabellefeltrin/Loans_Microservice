@@ -1,6 +1,5 @@
-﻿using LoansMicroservice.Model;
-using LoansMicroservice.Banco;
-using Microsoft.EntityFrameworkCore;
+﻿using LoansMicroservice.Data;
+using LoansMicroservice.Model;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,9 +7,9 @@ namespace LoansMicroservice.Repository
 {
     public class LoansRepository
     {
-        private readonly LoansDbContext _context;
+        private readonly AppDbContext _context;
 
-        public LoansRepository(LoansDbContext context)
+        public LoansRepository(AppDbContext context)
         {
             _context = context;
         }

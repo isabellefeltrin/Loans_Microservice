@@ -1,4 +1,4 @@
-﻿using static LoansMicroservice.Model.LoansModel;
+﻿using LoansMicroservice.Model;
 
 namespace LoansMicroservice.DTO
 {
