@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 ﻿using Microsoft.AspNetCore.Mvc;
 using LoansMicroservice.Models;
 using LoansMicroservice.Services;
+=======
+﻿using LoansMicroservice.DTO;
+using LoansMicroservice.Model;
+using LoansMicroservice.Service;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+>>>>>>> 54da52fad984003a64833e166d416e5bbcf56549
 
 namespace LoansMicroservice.Controllers
 {
@@ -8,6 +16,7 @@ namespace LoansMicroservice.Controllers
     [Route("api/[controller]")]
     public class LoansController : ControllerBase
     {
+<<<<<<< HEAD
         private readonly LoansService _service;
         public LoansController(LoansService service) => _service = service;
 
@@ -48,6 +57,41 @@ namespace LoansMicroservice.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
+=======
+        private readonly ILoansService _service;
+
+        public LoansController(ILoansService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<LoansResponseDTO>> GetAll()
+        {
+            return Ok(_service.GetAll());
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<LoansResponseDTO> GetById(int id)
+        {
+            var loan = _service.GetById(id);
+            if (loan == null) return NotFound();
+            return Ok(loan);
+        }
+
+        [HttpPost]
+        public IActionResult Create(LoansModel loan)
+        {
+            _service.Create(loan);
+            return CreatedAtAction(nameof(GetById), new { id = loan.Id }, loan);
+        }
+
+        [HttpPut]
+        public IActionResult Update(LoansModel loan)
+        {
+            _service.Update(loan);
+            return NoContent();
+>>>>>>> 54da52fad984003a64833e166d416e5bbcf56549
         }
     }
 }

@@ -1,15 +1,28 @@
+<<<<<<< HEAD
 ﻿using Microsoft.EntityFrameworkCore;
 using LoansMicroservice.Data;
 using LoansMicroservice.Models;
+=======
+﻿using LoansMicroservice.Data;
+using LoansMicroservice.Model;
+using System.Collections.Generic;
+using System.Linq;
+>>>>>>> 54da52fad984003a64833e166d416e5bbcf56549
 
 namespace LoansMicroservice.Repositories
 {
     public class LoansRepository
     {
+<<<<<<< HEAD
         private readonly LoansDbContext _context;
         public LoansRepository(LoansDbContext context) => _context = context;
 
         public async Task<Loan> AddAsync(Loan loan)
+=======
+        private readonly AppDbContext _context;
+
+        public LoansRepository(AppDbContext context)
+>>>>>>> 54da52fad984003a64833e166d416e5bbcf56549
         {
             await _context.Loans.AddAsync(loan);
             await _context.SaveChangesAsync();
