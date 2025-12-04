@@ -1,0 +1,16 @@
+﻿using LoansMicroservice.Model;
+
+namespace LoansMicroservice.DTO
+{
+    public class LoansResponseDTO
+    {
+        public int Id { get; set; }
+        public int BookId { get; set; }
+        public int MemberId { get; set; }
+
+        public DateTime DataEmprestimo { get; set; }
+        public DateTime? DataDevolucao { get; set; }
+
+        public string Status { get; set; } = string.Empty;
+    }
+}
