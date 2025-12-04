@@ -9,8 +9,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LoansMicroservice.Migrations
 {
+<<<<<<< HEAD
+    [DbContext(typeof(LoansDbContext))]
+    partial class LoansDbContextModelSnapshot : ModelSnapshot
+=======
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
+>>>>>>> 54da52fad984003a64833e166d416e5bbcf56549
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
